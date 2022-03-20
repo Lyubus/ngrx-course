@@ -16,6 +16,8 @@ export class CourseComponent implements OnInit {
 
   course$: Observable<Course>;
 
+  loading$: Observable<boolean>;
+
   lessons$: Observable<Lesson[]>;
 
   displayedColumns = ['seqNo', 'description', 'duration'];
