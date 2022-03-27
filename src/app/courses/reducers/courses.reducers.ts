@@ -17,7 +17,10 @@ export const initialCoursesState = adapter.getInitialState({
 
 export const coursesReducer = createReducer(
 	initialCoursesState,
-	on(CourseActions.allCoursesLoaded, (state, action) => adapter.addAll(action.courses, {...state, allCoursesLoaded: true}))
+	on(CourseActions.allCoursesLoaded,
+		(state, action) => adapter.addAll(action.courses, { ...state, allCoursesLoaded: true })),
+
+	on(CourseActions.courseUpdated, (state, action) => adapter.updateOne(action.update, state))
 );
 
 export const { selectAll } = adapter.getSelectors();
