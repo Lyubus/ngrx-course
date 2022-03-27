@@ -30,7 +30,9 @@ import { CoursesResolver } from './services/courses.resolver';
 import { CoursesDataService } from './services/courses-data.service';
 
 const entityMetadata: EntityMetadataMap = {
-  Course: {}
+  Course: {
+    sortComparer: compareCourses
+  }
 };
 
 export const coursesRoutes: Routes = [
