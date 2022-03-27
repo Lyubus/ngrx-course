@@ -35,4 +35,5 @@ h2 {
 
 .spinner-container {
   margin-top: 100px;
+  z-index: 2;
 }
