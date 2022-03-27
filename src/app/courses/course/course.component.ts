@@ -29,9 +29,8 @@ export class CourseComponent implements OnInit {
   constructor(
     private lessonEntityService: LessonEntityService,
     private courseEntityService: CourseEntityService,
-    private route: ActivatedRoute) {
-
-  }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
 
@@ -41,12 +40,27 @@ export class CourseComponent implements OnInit {
       map(cources => cources.find(course => course.url === courseUrl))
     );
 
-    this.lessons$ = of([]);
+    this.lessons$ = this.lessonEntityService.entities$.pipe(
+      withLatestFrom(this.course$),
+      tap(([lessons, course]) => {
+        if (this.nextPage === 0) {
+          this.loadLessonsPage(course);
+        }
+      }),
+      map(([lessons, course]) => lessons.filter(lesson => lesson.courseId === course.id))
+    );
+
+    this.loading$ = this.lessonEntityService.loading$.pipe(delay(0));
   }
 
 
   loadLessonsPage(course: Course) {
-
+    this.lessonEntityService.getWithQuery({
+      courseId: course.id.toString(),
+      pageNumber: this.nextPage.toString(),
+      pageSize: '3'
+    });
+    this.nextPage++;
   }
 
 }
